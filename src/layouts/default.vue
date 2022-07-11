@@ -1,32 +1,37 @@
 <template>
   <div id="app" class="vue-layout-default">
-    <nav>
-      <router-link :to="{ name : 'Dashboard'}">Home</router-link> |
-      <router-link :to="{ name : 'Article'}"> Article</router-link>
-    </nav>
-    <router-view/>
+    <div class="vue-layout-default-aside">
+      <vue-navbar />
+    </div>
+    <div class="vue-layout-default-content">
+      <router-view/>
+    </div>
+    
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import VueNavbar from './partials/vue-sidebar.vue'
+export default {
+  name : 'LayoutDefault',
+  components: {
+    VueNavbar
+  },
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+</script>
+<style lang="scss" scoped>
+  .vue-layout-default{
+    padding: 0 0 0 200px;
+    &-aside{
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 200px;
+      z-index: 500;
+      border-right: 1px solid #ccc;
+    }
+    &-content{
+      position: relative;
     }
   }
-}
 </style>

@@ -1,28 +1,37 @@
 <template>
-  <div class="vue-app-login-page">
-    <div class="vue-app-login-page-header">Hi, Welcome Back!</div>
-    <div class="vue-app-login-page-body">
-      <form class="vue-app-login-page-form" novalidate @submit.stop.prevent="onSubmit">
-        <div class="vue-app-login-page-form-item">
+  <div class="vue-app-register-page">
+    <div class="vue-app-register-page-header">Register Account</div>
+    <div class="vue-app-register-page-body">
+      <form class="vue-app-register-page-form" novalidate @submit.stop.prevent="onSubmit">
+        <div class="vue-app-register-page-form-item">
+          <input type="text" v-model="form.name" placeholder="Full name" />
+          <div class="vue-app-register-page-form-error" v-if="formstate">
+            <template v-if="!validation.form.name.required">Name is required !</template>
+          </div>
+        </div>
+        <div class="vue-app-register-page-form-item">
           <input type="email" v-model="form.email" placeholder="Email" />
-          <div class="vue-app-login-page-form-error" v-if="formstate">
+          <div class="vue-app-register-page-form-error" v-if="formstate">
             <template v-if="!validation.form.email.required">Email is required !</template>
           </div>
         </div>
-        <div class="vue-app-login-page-form-item">
+        <div class="vue-app-register-page-form-item">
           <input type="password" v-model="form.password" placeholder="Password" />
-          <div class="vue-app-login-page-form-error" v-if="formstate">
+          <div class="vue-app-register-page-form-error" v-if="formstate">
             <template v-if="!validation.form.password.required">Password is required !</template>
+            <template v-else-if="!validation.form.password.minLength">
+              Password min length 6 character!
+            </template>
           </div>
         </div>
-        <div class="vue-app-login-page-form-item">
-          <button type="submit">Login</button>
+        <div class="vue-app-register-page-form-item">
+          <button type="submit">Create Free Account</button>
         </div>
       </form>
     </div>
-    <div class="vue-app-login-page-footer">
-      Don't have an account?
-      <router-link :to="{ name: 'Register' }">Create a Free Account </router-link>
+    <div class="vue-app-register-page-footer">
+      Already have an account?
+      <router-link :to="{ name: 'Login' }">Login Now</router-link>
     </div>
   </div>
 </template>
@@ -31,6 +40,9 @@
 import { mapActions } from 'vuex';
   export default {
     name: "Register",
+    components: {
+      
+    },
     data() {
       return {
         form: {
@@ -50,25 +62,31 @@ import { mapActions } from 'vuex';
         };
         const password = {
           required: this.form.password ? true : false,
+          minLength: this.form.password.length >= 6 ? true : false,
+        };
+        const name = {
+          required: this.form.name ? true : false,
         };
         return {
           form:{
             email,
             password,
+            name,
           },
-          valid : email.required && password.required 
+          valid : email.required && password.required && password.minLength && name.required
         };
       },
     },
     methods: {
       ...mapActions({
-        login : 'auth/login'
+        register : 'auth/register'
       }),
       onSubmit() {
         this.formstate = true;
         if( this.is_loading || !this.validation.valid ) return 
         this.is_loading = true 
-        this.login(this.form).then((res)=>{
+        this.register(this.form).then((res)=>{
+          console.log(res);
           let { status  } = res 
           if( status ){
             this.$router.push({
@@ -83,11 +101,20 @@ import { mapActions } from 'vuex';
         })
       },
     },
+    watch:{
+
+    },
+    created(){
+
+    },
+    mounted(){
+      
+    }
   };
 </script>
 
 <style lang="scss" scoped>
-  .vue-app-login-page {
+  .vue-app-register-page {
     &-header {
       font-family: "Poppins";
       font-style: normal;

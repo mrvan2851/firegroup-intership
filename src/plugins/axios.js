@@ -1,4 +1,6 @@
 import { default as instance } from "axios";
+import cookie from '@/plugins/cookie'
+import store from '@/store'
 let axios = instance.create({
   baseURL: process.env.VUE_APP_API,
   timeout: 60 * 1000,
@@ -9,9 +11,9 @@ let axios = instance.create({
 axios.CancelToken = instance.CancelToken;
 axios.isCancel = instance.isCancel;
 axios.interceptors.request.use(function (config) {
-  let token = localStorage.get("access_token");
+  let token = cookie.get("test_token");
   if (token) {
-    config.headers["Authorization"] = "Bearer " + token;
+    config.headers["Authorization"] =  token;
   }
   return config;
 });

@@ -2,17 +2,9 @@
   <div>
     List Article
     <div>
-      <router-link :to="{ name : 'Article', query : { name : 'abcd'}}">
-          update link
-      </router-link>
-    </div>
-    <div>
       <router-link :to="{ name : 'CreateArticle'}">
           CreateArticle
       </router-link>
-      <button @click="onClick">
-         CreateArticle
-      </button>
     </div>
 
   </div>

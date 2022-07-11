@@ -19,7 +19,18 @@ const api = {
     });
   },
 
-  post(url, data = {}) {},
+  post(url, data = {}) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(url, data)
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
 
   put(url, data = {}) {},
 
@@ -27,12 +38,23 @@ const api = {
 };
 
 export default {
-  getUser (payload) {
-    let { id } = payload 
-    return api.get(`/use/${id}`, { id })
-  },
-  getListUser(payload){
-    let { page = 1, sort ='A-Z' , search  = 'name' } = payload 
-    return api.get('/users',  { page , sort , search })
+  //getUser(payload) {
+  //  let { id } = payload;
+  //  return api.get(`/use/${id}`, { id });
+  //},
+  //getListUser(payload) {
+  //  let { page = 1, sort = "A-Z", search = "name" } = payload;
+  //  return api.get("/users", { page, sort, search });
+  //},
+  AUTH :{
+    register(payload){
+      return api.post('/app/sign-up', payload )
+    },
+    login(payload){
+      return api.post('/app/sign-in', payload )
+    },
+    fetchUser(){
+      return api.get('/app/user')
+    }
   }
 };
