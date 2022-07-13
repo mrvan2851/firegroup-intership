@@ -5,8 +5,10 @@
 </template>
 
 <script>
+import form from '../mixin/form'
   export default {
-    name : 'Create'
+    name : 'Create',
+    mixins: [form]
   }
 </script>
 

@@ -6,7 +6,7 @@
     <div class="vue-layout-default-content">
       <router-view/>
     </div>
-    
+    <vue-modal-confirm />
   </div>
 </template>
 <script>
